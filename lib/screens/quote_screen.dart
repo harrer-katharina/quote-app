@@ -36,7 +36,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daily Quote'),
+        title: const Text('Random Quote'),
       ),
       body: Center(
         child: Padding(
@@ -46,19 +46,21 @@ class _QuoteScreenState extends State<QuoteScreen> {
             children: [
               Text(
                 _quote,
-                style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+                style:
+                    const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 '- $_author',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.right,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _loadQuote,
-                child: Text('New Quote'),
+                child: const Text('New Quote'),
               ),
             ],
           ),
