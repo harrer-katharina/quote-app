@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/favourite_quotes_screen.dart';
 import 'screens/quote_screen.dart';
-import 'screens/tag_filter_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +33,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final List<Widget> _widgetOptions = [
       QuoteScreen(addToFavorites: _addToFavorites),
-      TagFilterScreen(),
       FavoritesScreen(favoriteQuotes: _favoriteQuotes),
     ];
 
@@ -53,10 +51,6 @@ class _MyAppState extends State<MyApp> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Random Quote',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.filter_list),
-              label: 'Filter by Tags',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite),

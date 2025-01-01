@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../services/quote_service.dart';
 
 class TagFilterScreen extends StatefulWidget {
+  final List<String> selectedTags;
+
+  TagFilterScreen({required this.selectedTags});
+
   @override
   _TagFilterScreenState createState() => _TagFilterScreenState();
 }
@@ -9,12 +13,12 @@ class TagFilterScreen extends StatefulWidget {
 class _TagFilterScreenState extends State<TagFilterScreen> {
   final QuoteService _quoteService = QuoteService();
   List<String> _availableTags = [];
-  final List<String> _selectedTags = [];
-  List<Map<String, dynamic>> _filteredQuotes = [];
+  late List<String> _selectedTags;
 
   @override
   void initState() {
     super.initState();
+    _selectedTags = List<String>.from(widget.selectedTags);
     _loadAvailableTags();
   }
 
@@ -29,6 +33,7 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
     }
   }
 
+  /*
   Future<void> _loadQuotesByTags() async {
     if (_selectedTags.isNotEmpty) {
       try {
@@ -50,17 +55,15 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
       });
     }
   }
+*/
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Filter Quotes by Tags'),
-      ),
-      body: Padding(
+    return Padding(
         padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               const Text('Select Tags:', style: TextStyle(fontSize: 18)),
               Wrap(
@@ -84,34 +87,14 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _loadQuotesByTags,
-                child: const Text('Get Quotes'),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-              child: _filteredQuotes.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'No quotes match the selected tags.',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _filteredQuotes.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(_filteredQuotes[index]['quote']),
-                          subtitle:
-                              Text('- ${_filteredQuotes[index]['author']}'),
-                        );
-                      },
-                    ),
+                onPressed: () {
+                  Navigator.of(context).pop(_selectedTags);
+                },
+                child: const Text('Apply Filters'),
               ),
             ],
           ),
-      ),
+
     );
   }
 }

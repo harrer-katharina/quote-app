@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/quote_service.dart';
+import 'tag_filter_screen.dart';
 
 class QuoteScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) addToFavorites;
@@ -15,6 +16,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   String _quote = '';
   String _author = '';
   List<String> _categories = [];
+  List<String> _selectedTags = [];
 
   @override
   void initState() {
@@ -24,7 +26,9 @@ class _QuoteScreenState extends State<QuoteScreen> {
 
   Future<void> _loadQuote() async {
     try {
-      final quoteData = await _quoteService.fetchRandomQuote();
+      final quoteData = await _quoteService.fetchRandomQuote(
+          tags: _selectedTags.isNotEmpty ? _selectedTags.join(',') : null
+      );
       setState(() {
         _quote = quoteData['quote'];
         _author = quoteData['author'];
@@ -39,11 +43,34 @@ class _QuoteScreenState extends State<QuoteScreen> {
     }
   }
 
+  void _openTagFilter() async {
+    final selectedTags = await showModalBottomSheet<List<String>>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return TagFilterScreen(selectedTags: _selectedTags);
+      },
+    );
+
+    if (selectedTags != null) {
+      setState(() {
+        _selectedTags = selectedTags;
+      });
+      _loadQuote();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Random Quote'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: _openTagFilter,
+          ),
+        ],
       ),
       body: Center(
         child: Padding(
