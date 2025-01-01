@@ -36,6 +36,8 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
         setState(() {
           _filteredQuotes = quotes.isNotEmpty ? quotes : [];
         });
+        print('Selected tags: $_selectedTags');
+        print('Selected quote: $quotes');
       } catch (e) {
         print('Failed to load quotes by tags');
         setState(() {
@@ -57,7 +59,6 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -87,7 +88,8 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
                 child: const Text('Get Quotes'),
               ),
               const SizedBox(height: 20),
-              _filteredQuotes.isEmpty
+              Expanded(
+              child: _filteredQuotes.isEmpty
                   ? const Center(
                       child: Text(
                         'No quotes match the selected tags.',
@@ -96,7 +98,6 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
                       ),
                     )
                   : ListView.builder(
-                      shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _filteredQuotes.length,
                       itemBuilder: (context, index) {
@@ -107,9 +108,9 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
                         );
                       },
                     ),
+              ),
             ],
           ),
-        ),
       ),
     );
   }
