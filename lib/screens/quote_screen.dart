@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import '../services/quote_service.dart';
 import 'tag_filter_screen.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class QuoteScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) addToFavorites;
@@ -72,46 +75,110 @@ class _QuoteScreenState extends State<QuoteScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _quote,
-                style:
-                    const TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              Text(
-                '- $_author',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.right,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _loadQuote,
-                child: const Text('New Quote'),
-              ),
-              IconButton(
-                icon: const Icon(Icons.star_border),
-                onPressed: () {
-                  widget.addToFavorites({
-                    'quote': _quote,
-                    'author': _author,
-                    'categories': _categories.join(', ')
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Added to favorites!')),
-                  );
-                },
-              ),
-            ],
+      body: Stack (
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/quote_screen_background.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // Blurred card
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.7),
+                            width: 1,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 12.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                _quote,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                '$_author',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Favorite button
+                  Positioned(
+                    bottom: 12.0,
+                    right: 12.0,
+                    child: IconButton(
+                      icon: const Icon(Icons.star_border),
+                      onPressed: () {
+                        widget.addToFavorites({
+                          'quote': _quote,
+                          'author': _author,
+                          'categories': _categories.join(', ')
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Added to favorites!')),
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    top: -30,
+                    left: 0,
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: SvgPicture.asset(
+                        'assets/quote_icon.svg',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: ElevatedButton(
+              onPressed: _loadQuote,
+              child: const Text('New Quote'),
+            ),
+          ),
+        ],
       ),
     );
   }
