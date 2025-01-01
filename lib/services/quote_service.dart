@@ -40,7 +40,14 @@ class QuoteService {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      return [json.decode(response.body)];
+      final responseData = json.decode(response.body);
+      return [
+        {
+          'quote': responseData['quote'],
+          'author': responseData['author'],
+          'tags': responseData['tags'],
+        }
+      ];
     } else {
       throw Exception('Failed to load quotes by tags');
     }
