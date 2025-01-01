@@ -96,10 +96,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
                       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(32),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withOpacity(0.6),
                             width: 1,
                           ),
                         ),
