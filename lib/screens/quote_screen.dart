@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../services/quote_service.dart';
 
 class QuoteScreen extends StatefulWidget {
+  final Function(Map<String, dynamic>) addToFavorites;
+
+  QuoteScreen({required this.addToFavorites});
+
   @override
   _QuoteScreenState createState() => _QuoteScreenState();
 }
@@ -10,6 +14,7 @@ class _QuoteScreenState extends State<QuoteScreen> {
   final QuoteService _quoteService = QuoteService();
   String _quote = '';
   String _author = '';
+  List<String> _categories = [];
 
   @override
   void initState() {
@@ -23,11 +28,13 @@ class _QuoteScreenState extends State<QuoteScreen> {
       setState(() {
         _quote = quoteData['quote'];
         _author = quoteData['author'];
+        _categories = List<String>.from(quoteData['tags'] ?? []);
       });
     } catch (e) {
       setState(() {
         _quote = 'Failed to load quote.';
         _author = '';
+        _categories = [];
       });
     }
   }
@@ -61,6 +68,19 @@ class _QuoteScreenState extends State<QuoteScreen> {
               ElevatedButton(
                 onPressed: _loadQuote,
                 child: const Text('New Quote'),
+              ),
+              IconButton(
+                icon: const Icon(Icons.star_border),
+                onPressed: () {
+                  widget.addToFavorites({
+                    'quote': _quote,
+                    'author': _author,
+                    'categories': _categories.join(', ')
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Added to favorites!')),
+                  );
+                },
               ),
             ],
           ),
