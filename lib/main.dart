@@ -36,15 +36,35 @@ class _MyAppState extends State<MyApp> {
       FavoritesScreen(favoriteQuotes: _favoriteQuotes),
     ];
 
+    const primaryColor = Color(0xFF00515D);
+    const secondaryColor = Color(0xFFB5C7CC);
+    const tertiaryColor = Color(0xFFBB9E88);
+    const neutralColor = Color(0xFFF6E8E0);
+    const neutralVariantColor = Color(0xFFA59382);
+
     return MaterialApp(
       title: 'Quote App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Quote App'),
+        theme: ThemeData(
+          useMaterial3: true, // Enables Material 3 design
+          colorScheme: const ColorScheme(
+          brightness: Brightness.light, // Light theme
+          primary: primaryColor,
+          onPrimary: Colors.white,
+          secondary: secondaryColor,
+          onSecondary: primaryColor,
+          tertiary: tertiaryColor,
+          onTertiary: Colors.black,
+          background: neutralColor,
+          onBackground: Colors.black,
+          surface: Colors.white,
+          onSurface: Colors.black,
+          error: Colors.red,
+          onError: Colors.white,
+          surfaceVariant: neutralVariantColor,
+          onSurfaceVariant: Colors.black,
+          ),
         ),
+      home: Scaffold(
         body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[

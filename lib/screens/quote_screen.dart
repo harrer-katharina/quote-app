@@ -170,10 +170,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
             ),
           ),
           Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: ElevatedButton(
+            bottom: 48.0,
+            left: 96.0,
+            right: 96.0,
+            child: FilledButton.tonal(
               onPressed: _loadQuote,
               child: const Text('New Quote'),
             ),
