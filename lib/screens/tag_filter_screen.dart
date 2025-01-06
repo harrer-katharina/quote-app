@@ -86,7 +86,7 @@ class _TagFilterScreenState extends State<TagFilterScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () {
                   Navigator.of(context).pop(_selectedTags);
                 },
