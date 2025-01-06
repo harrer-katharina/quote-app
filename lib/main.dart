@@ -29,11 +29,23 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void _removeFromFavorites(Map<String, dynamic> quote) {
+    setState(() {
+      _favoriteQuotes.remove(quote);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Widget> _widgetOptions = [
-      QuoteScreen(addToFavorites: _addToFavorites),
-      FavoritesScreen(favoriteQuotes: _favoriteQuotes),
+      QuoteScreen(
+        addToFavorites: _addToFavorites,
+        favorites: _favoriteQuotes,
+      ),
+      FavoritesScreen(
+        favoriteQuotes: _favoriteQuotes,
+        removeFromFavorites: _removeFromFavorites,
+      ),
     ];
 
     const primaryColor = Color(0xFF00515D);
@@ -73,7 +85,7 @@ class _MyAppState extends State<MyApp> {
               label: 'Random Quote',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: Icon(Icons.star),
               label: 'Favorites',
             ),
           ],

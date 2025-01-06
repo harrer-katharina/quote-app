@@ -7,8 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class QuoteScreen extends StatefulWidget {
   final Function(Map<String, dynamic>) addToFavorites;
+  final List<Map<String, dynamic>> favorites;
 
-  QuoteScreen({required this.addToFavorites});
+  QuoteScreen({
+    required this.addToFavorites,
+    required this.favorites,
+  });
 
   @override
   _QuoteScreenState createState() => _QuoteScreenState();
@@ -43,6 +47,26 @@ class _QuoteScreenState extends State<QuoteScreen> {
         _author = '';
         _categories = [];
       });
+    }
+  }
+
+  bool _isFavorite() {
+    return widget.favorites.any((favorite) =>
+    favorite['quote'] == _quote && favorite['author'] == _author);
+  }
+
+  void _addFavorite() {
+    final quoteData = {
+      'quote': _quote,
+      'author': _author,
+      'categories': _categories.join(', '),
+    };
+
+    if (!_isFavorite()) {
+      widget.addToFavorites(quoteData);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Added to favorites!')),
+      );
     }
   }
 
@@ -140,17 +164,10 @@ class _QuoteScreenState extends State<QuoteScreen> {
                     bottom: 12.0,
                     right: 12.0,
                     child: IconButton(
-                      icon: const Icon(Icons.star_border),
-                      onPressed: () {
-                        widget.addToFavorites({
-                          'quote': _quote,
-                          'author': _author,
-                          'categories': _categories.join(', ')
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Added to favorites!')),
-                        );
-                      },
+                      icon: Icon(
+                        _isFavorite() ? Icons.star : Icons.star_border,
+                      ),
+                      onPressed: _addFavorite,
                     ),
                   ),
                   Positioned(
