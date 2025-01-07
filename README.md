@@ -1,6 +1,6 @@
 # Flutter Quote App
 
-Die Quote App ermöglicht es dir, zufällige inspirierende Zitate zu entdecken und basierend auf ausgewählten Tags zu filtern. Die Zitate und Tags werden über eine öffentliche API dynamisch abgerufen.
+Die Quote App ermöglicht es dir, zufällige inspirierende Zitate zu entdecken und basierend auf ausgewählten Tags zu filtern. Zitate können zu einer Favoritenliste hinzugefügt und von dort wieder entfernt werden. Die Zitate und Tags werden über eine öffentliche API dynamisch abgerufen.
 
 ---
 
@@ -10,6 +10,9 @@ Die Quote App ermöglicht es dir, zufällige inspirierende Zitate zu entdecken u
 - Anzeigen aller verfügbaren Kategorien.
 - Filtern von Zitaten basierend auf ausgewählten Kategorien.
 - Anzeigen der Zitate mit Autor und Text.
+- Hinzufügen eines Zitates zu einer Favoritenliste.
+- Anzeigen der Favoritenliste.
+- Entfernen eines Zitates von der Favoritenliste.
 
 ---
 
